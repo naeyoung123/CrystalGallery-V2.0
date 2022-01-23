@@ -5,7 +5,6 @@ var author = require('../lib/author.js');
 
 router.get('/', function(request, response) {
     var title = 'Crystal Gallery';
-    var authStatusUI = '<a class="nav-link" href="/login">로그인</a>';
     var head = ``;
     var body = `
     
