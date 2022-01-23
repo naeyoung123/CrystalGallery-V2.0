@@ -13,10 +13,12 @@ router.get('/login', function (request, response) {
 
         body {
             text-align: center;
+            background-color: rgb(0, 0, 0);
+            color : rgb(255,255,255);
         }
 
         #signupLogo {
-            color: black;
+            color : rgb(255,255,255);
             font-size: 3.0rem;
             margin-bottom: 30px;
         }
@@ -52,14 +54,9 @@ router.get('/login', function (request, response) {
             padding: 3px 5px 3px 15px;
         }
 
-        #password_signup {
-            margin-bottom: 8px;
-        }
-
         #pwpara,
-        #emailpara,
-        #nicknamepara {
-            color: black;
+        #emailpara{
+            color: rgb(255,255,255);
             font-weight: 700;
             margin-bottom: 0px;
             margin-right: 200px;
@@ -71,43 +68,15 @@ router.get('/login', function (request, response) {
             margin-right: 260px;
         }
 
-        #pwpara,
-        #nicknamepara {
+        #pwpara {
             margin-right: 230px;
         }
 
-        #passwordcheck_signup {
-            margin-bottom: 8px;
-        }
-
-        #checkpara {
-            margin-top: 0px;
-            margin-left: 90px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: grey;
-        }
-
-        #policyagree {
-            color: black;
-            background-color: white;
-            width: 20px;
-            height: 20px;
-            border: none;
-            box-shadow: none;
-            vertical-align: bottom;
-            margin-bottom: 0;
-        }
-
-        #policypara {
-            font-weight: 700;
-            color: black;
-        }
-
         #signupSubmitBtn {
-            background-color: gray;
+            border-color: #ffffff;
+            background-color: #000000;
             width: 270px;
-            color: black;
+            color: #ffffff;
             font-weight: 700;
             font-size: 1.0rem;
             vertical-align: middle;
@@ -115,7 +84,6 @@ router.get('/login', function (request, response) {
             padding-bottom: 10px;
             border: 0.2px solid rgb(158, 158, 158);
             border-radius: 15px;
-            box-shadow: 1px 1px 4px rgb(165, 165, 165);
             cursor: pointer;
             margin-top: 20px;
         }
@@ -137,12 +105,13 @@ router.get('/login', function (request, response) {
         }
 
         #link {
-            color: black;
+            color: white;
             text-decoration-line: none;
         }
     </style>
+
     <script>
-        function login() {
+        function login(){
             const emailReg = document.getElementById("email").value;
             const passwordReg = document.getElementById("password").value;
 
@@ -165,12 +134,12 @@ router.get('/login', function (request, response) {
                     <br>
                     <p id="pwpara">Password</p>
                     <input type="password" name="password" class="input-type" placeholder="password">
-                    <br />
+                    <br>
                     <button type="submit" id="signupSubmitBtn" onClick=login()>Log In</button>
 
                     <p id="orpara">─────────────　OR　─────────────</p>
-                    <p id="loginpara">For got your password?<a href="/find_password" id="link">　Find Password</b></a></p>
-                    <p id="loginpara">Dont have an account?<a href="/signup" id="link">　Sign Up</b></a></p>
+                    <p id="loginpara">Forgot your password?<a href="/find_password" id="link">　Find Password</b></a></p>
+                    <p id="loginpara">Don't you have an account?<a href="/signup" id="link">　Sign Up</b></a></p>
                 </form>
             </div>
         </div>
