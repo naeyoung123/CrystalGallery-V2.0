@@ -16,18 +16,19 @@ const artworkListRouter = require('./routes/auction/artwork_list.js');
 const registerArtworkErrorRouter = require('./routes/auction/register_artwork_error.js');
 const registerArtworkUpdateRouter = require('./routes/auction/register_artwork_update.js');
 const registerArtworkRouter = require('./routes/auction/register_artwork.js');
-
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false })); //body-parser 미들웨어 사용
 
 app.use(session({
-  secret:'my key',
-  resave: false,
-  saveUninitialize: true 
+    secret: 'my key',
+    resave: false,
+    saveUninitialize: true
 }));
 
 app.use('/', mainRouter);
 app.get('/login', loginRouter);
-app.post('/login_process',loginProcessRouter);
-app.get('/logout_process',logoutProcessRouter);
+app.post('/login_process', loginProcessRouter);
+app.get('/logout_process', logoutProcessRouter);
 app.get('/signup', signupRouter);
 app.post('/signup_process', signupProcessRouter);
 
@@ -39,6 +40,6 @@ app.get('/register_artwork_error.js', registerArtworkErrorRouter);
 app.get('/register_artwork_update.js', registerArtworkUpdateRouter);
 app.get('/register_artwork.js', registerArtworkRouter);
 
-app.listen(3000, function () {
+app.listen(3000, function() {
     console.log("server is running.")
-  });
+});
