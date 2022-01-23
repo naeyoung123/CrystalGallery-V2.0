@@ -14,7 +14,6 @@ router.post("/login_process", function (request, response) {
     [email],
     function (err, res) {
       if (res[0] == undefined) {
-        console.log("여기");
         response.redirect(`/login`);
       } else {
         if (res[0].password == password) {

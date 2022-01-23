@@ -32,7 +32,7 @@ router.get("/signup", function (request, response) {
             padding-bottom: 30px;
         }
         .input-type {
-            color: white;
+            color: black;
             font-size: 1.0rem;
             font-weight: 700;
             border: 2px solid white;
