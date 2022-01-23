@@ -113,6 +113,7 @@ router.get('/signup', function (request, response) {
         }
     </style>
     `;
+    
     var body = `
     <main class="flex-shrink-0">
     <br><br><br>
