@@ -15,6 +15,7 @@ const mygalleryRouter = require('./routes/profile/mygallery.js');
 const mypageRouter = require('./routes/profile/mypage.js');
 
 const artworkListRouter = require('./routes/auction/artwork_list.js');
+const artworkAuctionRouter = require('./routes/auction/artwork_auction.js');
 const registerArtworkErrorRouter = require('./routes/auction/register_artwork_error.js');
 const registerArtworkUpdateRouter = require('./routes/auction/register_artwork_update.js');
 const registerArtworkRouter = require('./routes/auction/register_artwork.js');
@@ -36,6 +37,7 @@ app.get('/mygallery', mygalleryRouter);
 app.get('/mypage', mypageRouter);
 
 app.get('/artwork_list', artworkListRouter);
+app.get('/artwork_auction', artworkAuctionRouter);
 app.get('/register_artwork_error', registerArtworkErrorRouter);
 app.get('/register_artwork_update', registerArtworkUpdateRouter);
 app.get('/register_artwork', registerArtworkRouter);
