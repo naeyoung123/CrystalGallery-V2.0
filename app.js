@@ -3,6 +3,7 @@ var app = express();
 const session = require('express-session');
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false })); //body-parser 미들웨어 사용
+app.use(express.static('public'));
 
 const mainRouter = require('./routes/main.js');
 const loginRouter = require('./routes/account/login.js');
