@@ -4,7 +4,7 @@ var template = require('../../lib/template.js');
 var author = require('../../lib/author.js');
 const db = require('../../db.js');
 
-router.get('/artwork_list', function (request, response) {
+router.get('/artwork_list', function(request, response) {
     var title = '작품 목록';
     var head = `
     <style>
@@ -86,8 +86,44 @@ router.get('/artwork_list', function (request, response) {
                         aria-label="Slide 2"></button>
                     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
                         aria-label="Slide 3"></button>
-                    </div>
+                    </div>`;
 
+    /* 경매 입찰가 TOP1, TOP2, TOP3 작품 띄우기 */
+    db.query(`SELECT a.bid_participant, a.highest_bid, 
+    b.art_name, b.initial_price, b.upload_user, b.art_file, b.art_explain, b.time_ending
+    FROM bid AS a INNER JOIN listing AS b 
+    ON a.art_bid_no = b.listing_no
+    ORDER BY highest_bid DESC
+    limit 3;`, function(error, output) {
+        if (error) {
+            console.log(error);
+            res.send({ success: false, message: 'database error', error: error });
+            return;
+        }
+
+        var top1_title = '';
+        var top1_explain = '';
+        var top2_title = '';
+        var top2_explain = '';
+        var top3_title = '';
+        var top3_explain = '';
+
+        if (output[0] !== undefined) {
+            top1_title = output[0].art_name;
+            top1_explain = output[0].art_explain;
+        }
+
+        if (output[1] !== undefined) {
+            top1_title = output[1].art_name;
+            top1_explain = output[1].art_explain;
+        }
+
+        if (output[2] !== undefined) {
+            top1_title = output[2].art_name;
+            top1_explain = output[2].art_explain;
+        }
+
+        body += `
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <a href="#">
@@ -95,8 +131,8 @@ router.get('/artwork_list', function (request, response) {
                             </a>
                             <div class="carousel-caption d-none d-md-block">
                                 <h2><b>Top1</b></h2>
-                                <h4>top1의 작품명 띄우기</h4>
-                                <h4>top1의 작품 설명 띄우기</h4>
+                                <h4>${top1_title}</h4>
+                                <h4>${top1_explain}</h4>
                             </div>
                         </div>
 
@@ -106,8 +142,8 @@ router.get('/artwork_list', function (request, response) {
                             </a>
                             <div class="carousel-caption d-none d-md-block">
                                 <h2><b>Top2</b></h2>
-                                <h4>top2의 작품명 띄우기</h4>
-                                <h4>top2의 작품 설명 띄우기</h4>
+                                <h4>${top2_title}</h4>
+                                <h4>${top2_explain}</h4>
                             </div>
                         </div>
 
@@ -117,12 +153,12 @@ router.get('/artwork_list', function (request, response) {
                             </a>
                             <div class="#">
                                 <h2><b>Top3</b></h2>
-                                <h4>top3의 작품명 띄우기</h4>
-                                <h4>top3의 작품 설명 띄우기</h4>
+                                <h4>${top3_title}</h4>
+                                <h4>${top3_explain}</h4>
                         </div>
                     </div>
                 </div>
-
+                
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
@@ -172,8 +208,12 @@ router.get('/artwork_list', function (request, response) {
         </div>
     </main>
     `;
-    var html = template.HTML(title, head, body, author.statusUI(request, response));
-    response.send(html);
+
+        var html = template.HTML(title, head, body, author.statusUI(request, response));
+        response.send(html);
+    });
+
+
 });
 
 module.exports = router;
