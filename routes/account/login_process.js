@@ -8,7 +8,6 @@ router.post("/login_process", function (request, response) {
   var post = request.body;
   var email = post.email;
   var password = post.password;
-  var username = post.username;
   db.query(
     `SELECT username, password FROM user WHERE email=?`,
     [email],
