@@ -26,28 +26,28 @@ app.use(
   session({
     secret: "my key",
     resave: false,
-    saveUninitialize: true,
-  })
-);
+    saveUninitialize: true
+}));
 
-app.use("/", mainRouter);
-app.get("/login", loginRouter);
-app.post("/login_process", loginProcessRouter);
-app.get("/logout_process", logoutProcessRouter);
-app.get("/signup", signupRouter);
-app.post("/signup_process", signupProcessRouter);
+app.use('/', mainRouter);
+app.get('/login', loginRouter);
+app.post('/login_process', loginProcessRouter);
+app.get('/logout_process', logoutProcessRouter);
+app.get('/signup', signupRouter);
+app.post('/signup_process', signupProcessRouter);
 
-app.get("/mygallery", mygalleryRouter);
-app.get("/mypage", mypageRouter);
+app.get('/mygallery', mygalleryRouter);
+app.get('/mypage', mypageRouter);
 
-app.get("/artwork_list", artworkListRouter);
-app.get("/artwork_auction", artworkAuctionRouter);
-app.get("/register_artwork_error", registerArtworkErrorRouter);
-app.get("/register_artwork_update", registerArtworkUpdateRouter);
-app.get("/register_artwork", registerArtworkRouter);
+app.get('/artwork_list', artworkListRouter);
+app.post('/artwork_list/:sortBy', artworkListRouter);
+app.get('/artwork_auction', artworkAuctionRouter);
+app.get('/register_artwork_error', registerArtworkErrorRouter);
+app.get('/register_artwork_update', registerArtworkUpdateRouter);
+app.get('/register_artwork', registerArtworkRouter);
 app.post("/register_artwork_process", registerArtworkProcessRouter);
 app.use("/register_artwork_process", express.static("uploads")); //사진 경로
 
-app.listen(3000, function () {
-  console.log("server is running.");
+app.listen(3000, function() {
+    console.log("server is running.")
 });
