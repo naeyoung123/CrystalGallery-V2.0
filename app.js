@@ -38,6 +38,7 @@ app.get('/mygallery', mygalleryRouter);
 app.get('/mypage', mypageRouter);
 
 app.get('/artwork_list', artworkListRouter);
+app.post('/artwork_list/:sortBy', artworkListRouter);
 app.get('/artwork_auction', artworkAuctionRouter);
 app.get('/register_artwork_error', registerArtworkErrorRouter);
 app.get('/register_artwork_update', registerArtworkUpdateRouter);
