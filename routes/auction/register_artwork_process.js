@@ -54,8 +54,33 @@ router.post(
           v.end();
           console.log(err);
         } else {
-          response.writeHead(302, {Location: "/register_artwork_update"});
-          response.end();
+          db.query(
+            `SELECT listing_no FROM listing WHERE art_file = ?`,
+            [image],
+            // 작품 등록에 성공했다면 이름이 같을 수 없는 image를 통해 listing_no를 알아내서 bid table에도 속성을 추가해
+            function (error, row) {
+              if (err) {
+                console.error(error);
+              } else {
+                const listing_no = row[0].listing_no;
+                db.query(
+                  //listing_no를 art_bid_no에, initial_price를 highest_bid에, upload_user를 bid_uplaod_user에 저장
+                  `INSERT INTO bid(art_bid_no, highest_bid, bid_upload_user) VALUES(?, ?, ?)`,
+                  [listing_no, initial_price, upload_user],
+                  function (error, row) {
+                    if (error) {
+                      console.error(error);
+                    } else {
+                      response.writeHead(302, {
+                        Location: "/register_artwork_update",
+                      });
+                      response.end();
+                    }
+                  }
+                );
+              }
+            }
+          );
         }
       }
     );
