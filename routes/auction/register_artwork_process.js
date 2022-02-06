@@ -7,22 +7,22 @@ const db = require("../../db.js");
 const path = require("path");
 
 var storage = multer.diskStorage({
-  //저장하는 방식
-  destination: function (req, file, cb) {
-    cb(null, "uploads/"); // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
-  },
-  filename: function (req, file, cb) {
-    var extension = path.extname(file.originalname);
-    cb(
-      null,
-      // cb 콜백함수를 통해 전송된 파일 이름 설정
-      path.basename(file.originalname, extension) + Date.now() + extension //확장자를 포함한 파일 이름
-    );
-  },
+    //저장하는 방식
+    destination: function(req, file, cb) {
+        cb(null, "uploads/"); // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
+    },
+    filename: function(req, file, cb) {
+        var extension = path.extname(file.originalname);
+        cb(
+            null,
+            // cb 콜백함수를 통해 전송된 파일 이름 설정
+            path.basename(file.originalname, extension) + Date.now() + extension //확장자를 포함한 파일 이름
+        );
+    },
 });
 
 //multer 미들웨어 등록
-var upload = multer({storage: storage});
+var upload = multer({ storage: storage });
 
 router.post(
   "/register_artwork_process",

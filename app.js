@@ -4,6 +4,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: false})); //body-parser 미들웨어 사용
 app.use(express.static("public"));
+app.use(express.static("uploads")); //작품 작성으로 업로드된 사진 경로
 
 const mainRouter = require("./routes/main.js");
 const loginRouter = require("./routes/account/login.js");
@@ -50,7 +51,6 @@ app.get("/register_artwork_error", registerArtworkErrorRouter);
 app.get("/register_artwork_update", registerArtworkUpdateRouter);
 app.get("/register_artwork", registerArtworkRouter);
 app.post("/register_artwork_process", registerArtworkProcessRouter);
-app.use("/register_artwork_process", express.static("uploads")); //사진 경로
 
 app.listen(3000, function () {
   console.log("server is running.");

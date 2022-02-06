@@ -104,31 +104,37 @@ router.get('/artwork_list', function(request, response) {
 
             var top1_title = '';
             var top1_explain = '';
+            var top1_art_file = '';
             var top2_title = '';
             var top2_explain = '';
+            var top2_art_file = '';
             var top3_title = '';
             var top3_explain = '';
+            var top3_art_file = '';
 
             if (output[0] !== undefined) {
                 top1_title = output[0].art_name;
                 top1_explain = output[0].art_explain;
+                top1_art_file = output[0].art_file;
             }
 
             if (output[1] !== undefined) {
-                top1_title = output[1].art_name;
-                top1_explain = output[1].art_explain;
+                top2_title = output[1].art_name;
+                top2_explain = output[1].art_explain;
+                top2_art_file = output[1].art_file;
             }
 
             if (output[2] !== undefined) {
-                top1_title = output[2].art_name;
-                top1_explain = output[2].art_explain;
+                top3_title = output[2].art_name;
+                top3_explain = output[2].art_explain;
+                top3_art_file = output[2].art_file;
             }
 
             body += `
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <a href="#">
-                                <img src="#" class="d-block">
+                            <a href="${top1_art_file}">
+                                <img src="${top1_art_file}" class="d-block" alt="${top1_title}" width="300px">
                             </a>
                             <div class="carousel-caption d-none d-md-block">
                                 <h2><b>Top1</b></h2>
@@ -139,7 +145,7 @@ router.get('/artwork_list', function(request, response) {
 
                         <div class="carousel-item">
                             <a href="#">
-                                <img src="#" class="d-block">
+                            <img src="${top2_art_file}" class="d-block" alt="${top2_title}">
                             </a>
                             <div class="carousel-caption d-none d-md-block">
                                 <h2><b>Top2</b></h2>
@@ -150,7 +156,7 @@ router.get('/artwork_list', function(request, response) {
 
                         <div class="carousel-item">
                             <a href="#">
-                                <img src="#" class="d-block">
+                                <img src="${top3_art_file}" class="d-block" alt="${top3_title}">
                             </a>
                             <div class="#">
                                 <h2><b>Top3</b></h2>
@@ -186,7 +192,7 @@ router.get('/artwork_list', function(request, response) {
                         <button type="submit" class="btn btn-outline-secondary" name="end_bid">경매 마감</button>
                     </form>
                     <form action="/artwork_list" method="GET">
-                    <button type="submit" class="btn btn-outline-secondary" name="end_bid">전체</button>
+                    <button type="submit" class="btn btn-outline-secondary">전체</button>
                 </form>
                 </div>
                 <br><br>
@@ -213,7 +219,7 @@ router.get('/artwork_list', function(request, response) {
                             <div class="col-md-3">
                                 <div class="mb-3" id="card">
                                     <div id="li">
-                                        <img src="#" style="width : 300px; height : 200px; ">
+                                        <img src="${output[i].art_file}" style="width : 300px; height : 200px; ">
                                         <div class="card-body">
                                             <p class="card-text">제목: ${output[i].art_name}</p>
                                             <p class="card-text">시작가: ${output[i].initial_price}</p>
@@ -346,31 +352,37 @@ router.post("/artwork_list/:sortId", function(request, response) {
 
             var top1_title = '';
             var top1_explain = '';
+            var top1_art_file = '';
             var top2_title = '';
             var top2_explain = '';
+            var top2_art_file = '';
             var top3_title = '';
             var top3_explain = '';
+            var top3_art_file = '';
 
             if (output[0] !== undefined) {
                 top1_title = output[0].art_name;
                 top1_explain = output[0].art_explain;
+                top1_art_file = output[0].art_file;
             }
 
             if (output[1] !== undefined) {
-                top1_title = output[1].art_name;
-                top1_explain = output[1].art_explain;
+                top2_title = output[1].art_name;
+                top2_explain = output[1].art_explain;
+                top2_art_file = output[1].art_file;
             }
 
             if (output[2] !== undefined) {
-                top1_title = output[2].art_name;
-                top1_explain = output[2].art_explain;
+                top3_title = output[2].art_name;
+                top3_explain = output[2].art_explain;
+                top3_art_file = output[2].art_file;
             }
 
             body += `
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <a href="#">
-                                <img src="#" class="d-block">
+                                <img src="${top1_art_file}" class="d-block" alt="${top1_title}">
                             </a>
                             <div class="carousel-caption d-none d-md-block">
                                 <h2><b>Top1</b></h2>
@@ -381,7 +393,7 @@ router.post("/artwork_list/:sortId", function(request, response) {
 
                         <div class="carousel-item">
                             <a href="#">
-                                <img src="#" class="d-block">
+                            <img src="${top2_art_file}" class="d-block" alt="${top2_title}">
                             </a>
                             <div class="carousel-caption d-none d-md-block">
                                 <h2><b>Top2</b></h2>
@@ -392,7 +404,7 @@ router.post("/artwork_list/:sortId", function(request, response) {
 
                         <div class="carousel-item">
                             <a href="#">
-                                <img src="#" class="d-block">
+                                <img src="${top3_art_file}" class="d-block" alt="${top3_title}">
                             </a>
                             <div class="#">
                                 <h2><b>Top3</b></h2>
@@ -428,7 +440,7 @@ router.post("/artwork_list/:sortId", function(request, response) {
                         <button type="submit" class="btn btn-outline-secondary" name="end_bid">경매 마감</button>
                     </form>
                     <form action="/artwork_list" method="GET">
-                        <button type="submit" class="btn btn-outline-secondary" name="end_bid">전체</button>
+                        <button type="submit" class="btn btn-outline-secondary">전체</button>
                     </form>
                 </div>
                 <br><br>
@@ -464,7 +476,7 @@ router.post("/artwork_list/:sortId", function(request, response) {
                         <div class="col-md-3">
                             <div class="mb-3" id="card">
                                 <div id="li">
-                                    <img src="#" style="width : 300px; height : 200px; ">
+                                    <img src="${output[i].art_file}" style="width : 300px; height : 200px; ">
                                     <div class="card-body">
                                         <p class="card-text">제목: ${output[i].art_name}</p>
                                         <p class="card-text">시작가: ${output[i].initial_price}</p>
@@ -508,7 +520,7 @@ router.post("/artwork_list/:sortId", function(request, response) {
                         <div class="col-md-3">
                             <div class="mb-3" id="card">
                                 <div id="li">
-                                    <img src="#" style="width : 300px; height : 200px; ">
+                                    <img src="${output[i].art_file}" style="width : 300px; height : 200px; ">
                                     <div class="card-body">
                                         <p class="card-text">제목: ${output[i].art_name}</p>
                                         <p class="card-text">시작가: ${output[i].initial_price}</p>
