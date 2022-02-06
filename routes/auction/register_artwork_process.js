@@ -7,22 +7,22 @@ const db = require("../../db.js");
 const path = require("path");
 
 var storage = multer.diskStorage({
-    //저장하는 방식
-    destination: function(req, file, cb) {
-        cb(null, "uploads/"); // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
-    },
-    filename: function(req, file, cb) {
-        var extension = path.extname(file.originalname);
-        cb(
-            null,
-            // cb 콜백함수를 통해 전송된 파일 이름 설정
-            path.basename(file.originalname, extension) + Date.now() + extension //확장자를 포함한 파일 이름
-        );
-    },
+  //저장하는 방식
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
+  },
+  filename: function (req, file, cb) {
+    var extension = path.extname(file.originalname);
+    cb(
+      null,
+      // cb 콜백함수를 통해 전송된 파일 이름 설정
+      path.basename(file.originalname, extension) + Date.now() + extension //확장자를 포함한 파일 이름
+    );
+  },
 });
 
 //multer 미들웨어 등록
-var upload = multer({ storage: storage });
+var upload = multer({storage: storage});
 
 router.post(
   "/register_artwork_process",
@@ -35,7 +35,7 @@ router.post(
     var art_file = request.file.filename;
     var art_explain = post.art_explain;
     var time_ending = post.time_ending;
-    var image = `uploads/` + art_file; //uploads/이미지이름
+    var image = `/` + art_file; // /이미지이름
     var today = new Date();
     db.query(
       `INSERT INTO listing (art_name, initial_price, upload_user, art_file, art_explain, time_ending, time_starting) VALUES(?, ?, ?, ?, ?, ?, ?)`,
