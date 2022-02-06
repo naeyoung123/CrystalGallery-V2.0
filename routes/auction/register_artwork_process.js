@@ -36,9 +36,18 @@ router.post(
     var art_explain = post.art_explain;
     var time_ending = post.time_ending;
     var image = `uploads/` + art_file; //uploads/이미지이름
+    var today = new Date();
     db.query(
-      `INSERT INTO listing (art_name, initial_price, upload_user, art_file, art_explain, time_ending) VALUES(?, ?, ?, ?, ?, ?)`,
-      [art_name, initial_price, upload_user, image, art_explain, time_ending],
+      `INSERT INTO listing (art_name, initial_price, upload_user, art_file, art_explain, time_ending, time_starting) VALUES(?, ?, ?, ?, ?, ?, ?)`,
+      [
+        art_name,
+        initial_price,
+        upload_user,
+        image,
+        art_explain,
+        time_ending,
+        today,
+      ],
       function (err, res) {
         if (err) {
           response.writeHead(200, {Location: "/register_artwork_error"});

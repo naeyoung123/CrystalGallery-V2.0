@@ -3,15 +3,27 @@ var router = express.Router();
 var template = require("../../lib/template.js");
 var author = require("../../lib/author.js");
 const db = require("../../db.js");
-var path = require('path');
+var path = require("path");
+const {init} = require("express/lib/application");
 
-router.get("/artwork_auction/:listing_no", function(request, response) {
-    /* url에서 listing_no 번호만 가져오기 */
-    var listing_no = path.parse(request.params.listing_no).base;
-    console.log("listing_no은" + listing_no + "입니다.");
-
-    var title = "작품 경매";
-    var head = `
+router.get("/artwork_auction/:listing_no", function (request, response) {
+  /* url에서 listing_no 번호만 가져오기 */
+  var listing_no = path.parse(request.params.listing_no).base;
+  console.log("listing_no은" + listing_no + "입니다.");
+  const sql = "SELECT * FROM listing WHERE listing_no = ?";
+  db.query(sql, [listing_no], (err, row) => {
+    if (err) {
+      console.error(err);
+    } else {
+      var title = "작품 경매";
+      const list_no = row[0].listing_no;
+      const art_name = row[0].art_name;
+      const initial_price = row[0].initial_price;
+      const art_explain = row[0].art_explain;
+      const time_ending = row[0].time_ending;
+      const time_starting = row[0].time_starting;
+      console.log(list_no);
+      var head = `
         <style>
         #wrapper {
             width: 100%
@@ -45,7 +57,7 @@ router.get("/artwork_auction/:listing_no", function(request, response) {
         </style>
     `;
 
-    var body = `
+      var body = `
     <div id=wrapper>
 
         <div id=image>
@@ -53,22 +65,24 @@ router.get("/artwork_auction/:listing_no", function(request, response) {
         </div>
 
         <div id=contents>
-            <h3>작품명:</h3>
-            작품설명:
+            <h3>작품명: ${art_name} </h3>
+            작품설명: ${art_explain}
             <br><br>
-            경매시작일: -경매마감일:
+            경매시작일: ${time_starting} -경매마감일: ${time_ending}
             <br><br>
-            시작금액:
+            시작금액: ${initial_price}
             <br><br>
-            현재금액:
+            현재금액: 
             <br><br>
+            <form action="/artwork_auction_process" method ="post">
+            <input type="hidden" name = "list_no" value=${list_no}>
             <label>
-            경매 금액: <input type="number" step="10" min="100" max="100000000"></label>
+            경매 금액: <input type="number" name ="bid_price" step="10" min="100" max="100000000"></label>
             <br>
             숫자 입력 : 10<input type="range" min="0" max="100000000">100000000
 
             <br><br>
-            <input type="button" value="낙찰">
+            <button type="submit" style="width:50%"><b>낙찰</b></button></form>
         </div>
 
         <div id=comment>
@@ -78,13 +92,15 @@ router.get("/artwork_auction/:listing_no", function(request, response) {
     </div>
     
     `;
-    var html = template.HTML(
+      var html = template.HTML(
         title,
         head,
         body,
         author.statusUI(request, response)
-    );
-    response.send(html);
+      );
+      response.send(html);
+    }
+  });
 });
 
 module.exports = router;
