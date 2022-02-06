@@ -3,10 +3,15 @@ var router = express.Router();
 var template = require("../../lib/template.js");
 var author = require("../../lib/author.js");
 const db = require("../../db.js");
+var path = require('path');
 
-router.get("/artwork_auction", function (request, response) {
-  var title = "작품 경매";
-  var head = `
+router.get("/artwork_auction/:listing_no", function(request, response) {
+    /* url에서 listing_no 번호만 가져오기 */
+    var listing_no = path.parse(request.params.listing_no).base;
+    console.log("listing_no은" + listing_no + "입니다.");
+
+    var title = "작품 경매";
+    var head = `
         <style>
         #wrapper {
             width: 100%
@@ -40,7 +45,7 @@ router.get("/artwork_auction", function (request, response) {
         </style>
     `;
 
-  var body = `
+    var body = `
     <div id=wrapper>
 
         <div id=image>
@@ -73,13 +78,13 @@ router.get("/artwork_auction", function (request, response) {
     </div>
     
     `;
-  var html = template.HTML(
-    title,
-    head,
-    body,
-    author.statusUI(request, response)
-  );
-  response.send(html);
+    var html = template.HTML(
+        title,
+        head,
+        body,
+        author.statusUI(request, response)
+    );
+    response.send(html);
 });
 
 module.exports = router;

@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 const session = require("express-session");
 const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({extended: false})); //body-parser 미들웨어 사용
+app.use(bodyParser.urlencoded({ extended: false })); //body-parser 미들웨어 사용
 app.use(express.static("public"));
 
 const mainRouter = require("./routes/main.js");
@@ -23,11 +23,11 @@ const registerArtworkRouter = require("./routes/auction/register_artwork.js");
 const registerArtworkProcessRouter = require("./routes/auction/register_artwork_process.js");
 
 app.use(
-  session({
-    secret: "my key",
-    resave: false,
-    saveUninitialize: true
-}));
+    session({
+        secret: "my key",
+        resave: false,
+        saveUninitialize: true
+    }));
 
 app.use('/', mainRouter);
 app.get('/login', loginRouter);
@@ -40,8 +40,9 @@ app.get('/mygallery', mygalleryRouter);
 app.get('/mypage', mypageRouter);
 
 app.get('/artwork_list', artworkListRouter);
-app.post('/artwork_list/:sortBy', artworkListRouter);
-app.get('/artwork_auction', artworkAuctionRouter);
+app.post('/artwork_list/:sortId', artworkListRouter);
+//app.get('/artwork_auction', artworkAuctionRouter);
+app.get('/artwork_auction/:listing_no', artworkAuctionRouter);
 app.get('/register_artwork_error', registerArtworkErrorRouter);
 app.get('/register_artwork_update', registerArtworkUpdateRouter);
 app.get('/register_artwork', registerArtworkRouter);
