@@ -5,16 +5,18 @@ var author = require('../../lib/author.js');
 const db = require('../../db.js');
 var path = require('path');
 
-router.get('/artwork_list', function(request, response) {
+router.get('/artwork_list', function (request, response) {
     var title = '작품 목록';
     var head = `
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/carousel/">
+
     <style>
     body {
         background-color: rgb(0, 0, 0);
         color: white;
     }
 
-    .btn {
+    #btn1 {
         border-color: rgb(255, 255, 255);
         color: rgb(255, 255, 255);
         font-size: 1.1vw;
@@ -79,14 +81,11 @@ router.get('/artwork_list', function(request, response) {
     <main class="flex-shrink-0">
         <div class="container">
             <section class="py-5">
-                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-                        aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
                     </div>`;
 
     /* 경매 입찰가 TOP1, TOP2, TOP3 작품 띄우기 */
@@ -95,10 +94,14 @@ router.get('/artwork_list', function(request, response) {
     FROM bid AS a INNER JOIN listing AS b 
     ON a.art_bid_no = b.listing_no
     ORDER BY highest_bid DESC;`,
-        function(error, output) {
+        function (error, output) {
             if (error) {
                 console.log(error);
-                res.send({ success: false, message: 'database error', error: error });
+                res.send({
+                    success: false,
+                    message: 'database error',
+                    error: error
+                });
                 return;
             }
 
@@ -131,83 +134,89 @@ router.get('/artwork_list', function(request, response) {
             }
 
             body += `
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <a href="${top1_art_file}">
-                                <img src="${top1_art_file}" class="d-block" alt="${top1_title}" width="300px">
-                            </a>
-                            <div class="carousel-caption d-none d-md-block">
-                                <h2><b>Top1</b></h2>
-                                <h4>${top1_title}</h4>
-                                <h4>${top1_explain}</h4>
-                            </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <a href="${top1_art_file}">
+                            <img src="${top1_art_file}" class="d-block" alt="${top1_title}" width="300px">
+                        </a>
+                        <div class="carousel-caption d-none d-md-block">
+                            <h2><b>Top1</b></h2>
+                            <h4>${top1_title}</h4>
+                            <h4>${top1_explain}</h4>
                         </div>
+                    </div>
 
-                        <div class="carousel-item">
-                            <a href="#">
-                            <img src="${top2_art_file}" class="d-block" alt="${top2_title}">
-                            </a>
-                            <div class="carousel-caption d-none d-md-block">
-                                <h2><b>Top2</b></h2>
-                                <h4>${top2_title}</h4>
-                                <h4>${top2_explain}</h4>
-                            </div>
+                    <div class="carousel-item">
+                        <a href="${top2_art_file}">
+                            <img src="${top2_art_file}" class="d-block" alt="${top2_title}"  width="300px">
+                        </a>
+                        <div class="carousel-caption d-none d-md-block">
+                            <h2><b>Top2</b></h2>
+                            <h4>${top2_title}</h4>
+                            <h4>${top2_explain}</h4>
                         </div>
+                    </div>
 
-                        <div class="carousel-item">
-                            <a href="#">
-                                <img src="${top3_art_file}" class="d-block" alt="${top3_title}">
-                            </a>
-                            <div class="#">
-                                <h2><b>Top3</b></h2>
-                                <h4>${top3_title}</h4>
-                                <h4>${top3_explain}</h4>
+                    <div class="carousel-item">
+                        <a href="${top3_art_file}">
+                            <img src="${top3_art_file}" class="d-block" alt="${top3_title}"  width="300px">
+                        </a>
+                        <div class="carousel-caption d-none d-md-block">
+                            <h2><b>Top3</b></h2>
+                            <h4>${top3_title}</h4>
+                            <h4>${top3_explain}</h4>
                         </div>
                     </div>
                 </div>
                 
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
 
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
+                
+                
                 </div>
             </section>
 
             <p style="text-align: center;">
-                <a href="/register_artwork" class="btn btn-outline-secondary">내 작품 등록하기</a>
-                <a href="/register_artwork" class="btn btn-outline-secondary">내 작품 등록하기</a>
+                <a href="/register_artwork" id = "btn1" class="btn btn-outline-secondary">내 작품 등록하기</a>
             </p>
 
             <div class="py-5">
                 <div class="btn-group" role="group">
                     <form action="/artwork_list/ongoing_bid" method="POST">
-                        <button type="submit" class="btn btn-outline-secondary" name="ongoing_bid">경매중</button>
+                        <button type="submit" id = "btn1" class="btn btn-outline-secondary" name="ongoing_bid">경매중</button>
                     </form>
                     <form action="/artwork_list/end_bid" method="POST">
-                        <button type="submit" class="btn btn-outline-secondary" name="end_bid">경매 마감</button>
+                        <button type="submit" id = "btn1" class="btn btn-outline-secondary" name="end_bid">경매 마감</button>
                     </form>
                     <form action="/artwork_list" method="GET">
-                    <button type="submit" class="btn btn-outline-secondary">전체</button>
-                </form>
+                        <button type="submit" id = "btn1" class="btn btn-outline-secondary">전체</button>
+                    </form>
                 </div>
                 <br><br>
 
-                <div class="row" id="work">`;
+                <div class="row" id="work">
+                `;
 
 
             /* 작품 경매 리스트 - 기본적으로 경매중 */
             db.query(`SELECT a.highest_bid, 
     b.listing_no, b.art_name, b.initial_price, b.art_file, b.time_ending
     FROM bid AS a RIGHT JOIN listing AS b 
-    ON a.art_bid_no = b.listing_no; `, function(error, output) {
+    ON a.art_bid_no = b.listing_no; `, function (error, output) {
                 if (error) {
                     console.log(error);
-                    res.send({ success: false, message: 'database error', error: error });
+                    res.send({
+                        success: false,
+                        message: 'database error',
+                        error: error
+                    });
                     return;
                 }
 
@@ -249,13 +258,15 @@ router.get('/artwork_list', function(request, response) {
 });
 
 /* 작품 경매 리스트 - 경매중/경매 마감 클릭 시 분류 */
-router.post("/artwork_list/:sortId", function(request, response) {
+router.post("/artwork_list/:sortId", function (request, response) {
 
     var sortId = path.parse(request.params.sortId).base;
 
     /* 248행~430행까지는 artwork_list 라우터와 완전히 중복되는 코드  */
     var title = '작품 목록';
     var head = `
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/carousel/">
+
     <style>
     body {
         background-color: rgb(0, 0, 0);
@@ -327,15 +338,12 @@ router.post("/artwork_list/:sortId", function(request, response) {
     <main class="flex-shrink-0">
         <div class="container">
             <section class="py-5">
-                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-                        aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
-                    </div>`;
+            <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>`;
 
     /* 경매 입찰가 TOP1, TOP2, TOP3 작품 띄우기 */
     db.query(`SELECT a.bid_participant, a.highest_bid, 
@@ -343,10 +351,14 @@ router.post("/artwork_list/:sortId", function(request, response) {
     FROM bid AS a INNER JOIN listing AS b 
     ON a.art_bid_no = b.listing_no
     ORDER BY highest_bid DESC;`,
-        function(error, output) {
+        function (error, output) {
             if (error) {
                 console.log(error);
-                res.send({ success: false, message: 'database error', error: error });
+                res.send({
+                    success: false,
+                    message: 'database error',
+                    error: error
+                });
                 return;
             }
 
@@ -381,7 +393,7 @@ router.post("/artwork_list/:sortId", function(request, response) {
             body += `
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <a href="#">
+                            <a href="${top1_art_file}">
                                 <img src="${top1_art_file}" class="d-block" alt="${top1_title}">
                             </a>
                             <div class="carousel-caption d-none d-md-block">
@@ -392,7 +404,7 @@ router.post("/artwork_list/:sortId", function(request, response) {
                         </div>
 
                         <div class="carousel-item">
-                            <a href="#">
+                            <a href="${top2_art_file}">
                             <img src="${top2_art_file}" class="d-block" alt="${top2_title}">
                             </a>
                             <div class="carousel-caption d-none d-md-block">
@@ -403,10 +415,10 @@ router.post("/artwork_list/:sortId", function(request, response) {
                         </div>
 
                         <div class="carousel-item">
-                            <a href="#">
+                            <a href="${top3_art_file}">
                                 <img src="${top3_art_file}" class="d-block" alt="${top3_title}">
                             </a>
-                            <div class="#">
+                            <div class="carousel-caption d-none d-md-block">
                                 <h2><b>Top3</b></h2>
                                 <h4>${top3_title}</h4>
                                 <h4>${top3_explain}</h4>
@@ -414,33 +426,32 @@ router.post("/artwork_list/:sortId", function(request, response) {
                     </div>
                 </div>
                 
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
 
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
                 </div>
             </section>
 
-            <p style="text-align: center;">
-                <a href="/register_artwork" class="btn btn-outline-secondary">내 작품 등록하기</a>
-                <a href="/register_artwork" class="btn btn-outline-secondary">내 작품 등록하기</a>
+            <p style = "text-align:center;">
+                <a href="/register_artwork" class="btn btn-outline-secondary" id = "btn1">내 작품 등록하기</a>
             </p>
 
             <div class="py-5">
                 <div class="btn-group" role="group">
                     <form action="/artwork_list/ongoing_bid" method="POST">
-                        <button type="submit" class="btn btn-outline-secondary" name="ongoing_bid">경매중</button>
+                        <button type="submit" id = "btn1" class="btn btn-outline-secondary" name="ongoing_bid">경매중</button>
                     </form>
                     <form action="/artwork_list/end_bid" method="POST">
-                        <button type="submit" class="btn btn-outline-secondary" name="end_bid">경매 마감</button>
+                        <button type="submit" id = "btn1" class="btn btn-outline-secondary" name="end_bid">경매 마감</button>
                     </form>
                     <form action="/artwork_list" method="GET">
-                        <button type="submit" class="btn btn-outline-secondary">전체</button>
+                        <button type="submit" id = "btn1" class="btn btn-outline-secondary">전체</button>
                     </form>
                 </div>
                 <br><br>
@@ -452,10 +463,14 @@ router.post("/artwork_list/:sortId", function(request, response) {
     b.listing_no, b.art_name, b.initial_price, b.art_file, b.time_ending
     FROM bid AS a RIGHT JOIN listing AS b 
     ON a.art_bid_no = b.listing_no; `,
-                function(error, output) {
+                function (error, output) {
                     if (error) {
                         console.log(error);
-                        res.send({ success: false, message: 'database error', error: error });
+                        res.send({
+                            success: false,
+                            message: 'database error',
+                            error: error
+                        });
                         return;
                     }
 
