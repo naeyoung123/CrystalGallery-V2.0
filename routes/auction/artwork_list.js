@@ -5,7 +5,7 @@ var author = require('../../lib/author.js');
 const db = require('../../db.js');
 var path = require('path');
 
-router.get('/artwork_list', function (request, response) {
+router.get('/artwork_list', function(request, response) {
     var title = '작품 목록';
     var head = `
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/carousel/">
@@ -94,7 +94,7 @@ router.get('/artwork_list', function (request, response) {
     FROM bid AS a INNER JOIN listing AS b 
     ON a.art_bid_no = b.listing_no
     ORDER BY highest_bid DESC;`,
-        function (error, output) {
+        function(error, output) {
             if (error) {
                 console.log(error);
                 res.send({
@@ -209,7 +209,7 @@ router.get('/artwork_list', function (request, response) {
             db.query(`SELECT a.highest_bid, 
     b.listing_no, b.art_name, b.initial_price, b.art_file, b.time_ending
     FROM bid AS a RIGHT JOIN listing AS b 
-    ON a.art_bid_no = b.listing_no; `, function (error, output) {
+    ON a.art_bid_no = b.listing_no; `, function(error, output) {
                 if (error) {
                     console.log(error);
                     res.send({
@@ -258,7 +258,7 @@ router.get('/artwork_list', function (request, response) {
 });
 
 /* 작품 경매 리스트 - 경매중/경매 마감 클릭 시 분류 */
-router.post("/artwork_list/:sortId", function (request, response) {
+router.post("/artwork_list/:sortId", function(request, response) {
 
     var sortId = path.parse(request.params.sortId).base;
 
@@ -351,7 +351,7 @@ router.post("/artwork_list/:sortId", function (request, response) {
     FROM bid AS a INNER JOIN listing AS b 
     ON a.art_bid_no = b.listing_no
     ORDER BY highest_bid DESC;`,
-        function (error, output) {
+        function(error, output) {
             if (error) {
                 console.log(error);
                 res.send({
@@ -463,7 +463,7 @@ router.post("/artwork_list/:sortId", function (request, response) {
     b.listing_no, b.art_name, b.initial_price, b.art_file, b.time_ending
     FROM bid AS a RIGHT JOIN listing AS b 
     ON a.art_bid_no = b.listing_no; `,
-                function (error, output) {
+                function(error, output) {
                     if (error) {
                         console.log(error);
                         res.send({
