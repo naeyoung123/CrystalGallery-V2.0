@@ -11,10 +11,11 @@ router.get("/artwork_auction/:listing_no", function(request, response) {
     var listing_no = path.parse(request.params.listing_no).base;
     console.log("listing_no은" + listing_no + "입니다.");
     const sql = `
-      SELECT art_bid_no,art_name, art_explain, art_file, initial_price, time_ending, time_starting, bid_participant, highest_bid, bid_upload_user
-      FROM listing LEFT JOIN bid
-      ON listing.listing_no = bid.art_bid_no
-      WHERE listing_no = 25;`
+        SELECT art_name, art_explain, art_file, initial_price, time_ending, time_starting,
+        bid_participant, highest_bid, bid_upload_user
+        FROM listing LEFT JOIN bid
+        ON listing.listing_no = bid.art_bid_no
+      WHERE listing_no = ?;`
     db.query(sql, [listing_no], (err, row) => {
         if (err) {
             console.error(err);
@@ -27,8 +28,8 @@ router.get("/artwork_auction/:listing_no", function(request, response) {
             const art_explain = row[0].art_explain;
             const time_ending = row[0].time_ending;
             const time_starting = row[0].time_starting;
-            const highest_bid = row[0].highest_bid;
-            const bid_upload_user = row[0].bid_upload_user;
+            const highest_bid = row[0].highest_bid ? row[0].highest_bid : "입찰자 없음";
+            const bid_upload_user = row[0].bid_upload_user ? row[0].highest_bid : "입찰자 없음";
             const user = request.session.username;
 
             var head = `
@@ -69,7 +70,7 @@ router.get("/artwork_auction/:listing_no", function(request, response) {
     <div id="wrapper">
 
         <div id="image">
-          <img src='${art_file}' alt='${art_name}' width: 50%; height: 500px;>      
+          <img src='${art_file}' width: 50% height: 500px alt='${art_name}'>      
         </div>
 
         <div id="contents">
