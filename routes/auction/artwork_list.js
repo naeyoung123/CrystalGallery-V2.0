@@ -81,7 +81,7 @@ var head = `
       #username{
         width:300px;
       }
-      #userFollow{
+      .userFollow{
         margin:30px;
         text-align: right;
       }
@@ -224,7 +224,7 @@ router.get('/artwork_list', function(request, response) {
 
             /* 작품 경매 리스트 - 기본적으로 경매중 */
             db.query(`SELECT a.highest_bid, 
-    b.listing_no, b.art_name, b.initial_price, b.art_file, b.time_ending
+    b.listing_no, b.art_name, b.initial_price, b.art_file, b.time_ending, b.upload_user
     FROM bid AS a RIGHT JOIN listing AS b 
     ON a.art_bid_no = b.listing_no; `, function(error, output) {
                 if (error) {
@@ -262,8 +262,8 @@ router.get('/artwork_list', function(request, response) {
                                 <div class="upload-user profile">
                                     <table class="user_table">
                                         <tr>
-                                        <td id="username">USER_name</td>
-                                        <td id="userFollow"><buttton class="btn btn-outline-primary">Follow</button></td>
+                                        <td id="username">${output[i].upload_user}</td>
+                                        <td id="userFollow" class="userFollow"><buttton class="btn btn-outline-primary">Follow</button></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -418,7 +418,7 @@ router.post("/artwork_list/:sortId", function(request, response) {
 
 
             db.query(`SELECT a.highest_bid, 
-    b.listing_no, b.art_name, b.initial_price, b.art_file, b.time_ending
+    b.listing_no, b.art_name, b.initial_price, b.art_file, b.time_ending, b.upload_user
     FROM bid AS a RIGHT JOIN listing AS b 
     ON a.art_bid_no = b.listing_no; `,
                 function(error, output) {
@@ -466,8 +466,8 @@ router.post("/artwork_list/:sortId", function(request, response) {
                             <div class="upload-user profile">
                                     <table class="user_table">
                                         <tr>
-                                        <td id="username">USER_name</td>
-                                        <td id="userFollow"><buttton class="btn btn-outline-primary">Follow</button></td>
+                                        <td id="username">${output[i].upload_user}</td>
+                                        <td id="userFollow" class="userFollow"><buttton class="btn btn-outline-primary">Follow</button></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -480,8 +480,7 @@ router.post("/artwork_list/:sortId", function(request, response) {
                         body += `${artwork_list}
             </div>
         </div>
-    </main>
-    <script src="artwork_list.js"></script>`;
+    </main>`;
 
                         var html = template.HTML(title, head, body, author.statusUI(request, response));
                         response.send(html);
@@ -520,8 +519,8 @@ router.post("/artwork_list/:sortId", function(request, response) {
                             <div class="upload-user profile">
                                     <table class="user_table">
                                         <tr>
-                                        <td id="username">USER_name</td>
-                                        <td id="userFollow"><buttton class="btn btn-outline-primary">Follow</button></td>
+                                        <td id="username">${output[i].upload_user}</td>
+                                        <td id="userFollow" class="userFollow"><buttton class="btn btn-outline-primary">Follow</button></td>
                                         </tr>
                                     </table>
                                 </div>
