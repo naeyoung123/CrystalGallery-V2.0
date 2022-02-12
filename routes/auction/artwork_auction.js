@@ -4,7 +4,6 @@ var template = require("../../lib/template.js");
 var author = require("../../lib/author.js");
 const db = require("../../db.js");
 var path = require("path");
-const {init} = require("express/lib/application");
 
 router.get("/artwork_auction/:listing_no", function (request, response) {
   /* url에서 listing_no 번호만 가져오기 */
@@ -31,6 +30,8 @@ router.get("/artwork_auction/:listing_no", function (request, response) {
       const highest_bid = row[0].highest_bid;
       const bid_upload_user = row[0].bid_upload_user;
       const user = request.session.username;
+      const bid_participant = row[0].bid_participant;
+      console.log(bid_participant);
 
       var head = `
         <style>
@@ -65,7 +66,9 @@ router.get("/artwork_auction/:listing_no", function (request, response) {
         }
         </style>
     `;
-
+      // 시간 및 사용자 비교
+      const now = new Date();
+      const deadline = new Date(time_ending);
       var body = `
     <div id="wrapper">
 
@@ -90,16 +93,20 @@ router.get("/artwork_auction/:listing_no", function (request, response) {
               <input type="hidden" name = "highest_bid" value=${highest_bid}>
               <input type="hidden" name = "bid_upload_user" value=${bid_upload_user}>
               <input type="hidden" name = "initial_price" value=${initial_price}>
+              <input type="hidden" name = "bid_participant" value=${bid_participant}>
+              
               ${
                 bid_upload_user === user
                   ? "<h5>자신의 작품은 낙찰할 수 없습니다.</h5>"
+                  : now > deadline
+                  ? "<h5>마감 기한이 지난 경매는 참여할 수 없습니다.</h5>"
                   : `<label>경매 금액: <input type="number" name ="bid_price" step="10" min="100" max="100000000"></label>
                   <br>
                   숫자 입력 : 10<input type="range" min="0" max="100000000">100000000
                   <br><br>
                   <button type="submit" style="width:50%"><b>낙찰</b></button>
                   `
-              } 
+              }
             </form>
         </div>
 

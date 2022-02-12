@@ -50,9 +50,13 @@ router.post(
       ],
       function (err, res) {
         if (err) {
-          response.writeHead(200, {Location: "/register_artwork_error"});
-          v.end();
-          console.log(err);
+          // response.writeHead(200, {Location: "/register_artwork_error"});
+          // 작품 등록 실패 시 alert 띄우기 -> 프론트 확인 후 위 주석 삭제 부탁합니다.
+          response.send(
+            `<script type="text/javascript">alert("작품 등록에 실패했습니다.\n등록 형식을 확인해보세요.");window.location.href = '/register_artwork' </script>;`
+          );
+          // v.end();
+          // console.log(err);
         } else {
           db.query(
             `SELECT listing_no FROM listing WHERE art_file = ?`,
@@ -71,10 +75,14 @@ router.post(
                     if (error) {
                       console.error(error);
                     } else {
-                      response.writeHead(302, {
-                        Location: "/register_artwork_update",
-                      });
-                      response.end();
+                      // 작품 등록 성공 시 일단은 alert 띄우게 바꿈
+                      // response.writeHead(302, {
+                      //   Location: "/register_artwork_update",
+                      // });
+                      response.send(
+                        `<script type="text/javascript">alert("작품이 성공적으로 등록되었습니다.");window.location.href = '/artwork_auction/' + ${listing_no} </script>;`
+                      );
+                      // response.end();
                     }
                   }
                 );
