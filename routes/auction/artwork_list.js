@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const session = require("express-session");
 var template = require("../../lib/template.js");
 var author = require("../../lib/author.js");
 const db = require("../../db.js");
@@ -116,7 +117,7 @@ router.get("/artwork_list", function (request, response) {
         top3_art_file = output[2].art_file;
       }
 
-    var body = `
+      var body = `
     <br>
     <main class="flex-shrink-0">
       <div class="container">
@@ -161,7 +162,11 @@ router.get("/artwork_list", function (request, response) {
         <br><br><br>
       
         <p style="text-align: center;">
-          <a href="/register_artwork" id = "btn1" class="btn btn-outline-secondary">내 작품 등록하기</a>
+          ${
+            request.session.is_logined
+              ? `<a href="/register_artwork" id = "btn1" class="btn btn-outline-secondary">내 작품 등록하기</a>`
+              : `<a href="/login" id = "btn1" class="btn btn-outline-secondary" onclick="alert('로그인 후 등록할 수 있습니다.')">내 작품 등록하기</a>`
+          }
         </p>
 
         <div class="btn-group" role="group">
@@ -203,13 +208,23 @@ router.get("/artwork_list", function (request, response) {
             artwork_list += `
               <div class="col-xs-3" id="card">
                 <div id="li" >
-                    <img src="${output[i].art_file}" style="width : 276px; height : 271px; object-fit: cover;" >
+                    <img src="${
+                      output[i].art_file
+                    }" style="width : 276px; height : 271px; object-fit: cover;" >
                       <div class="card-body">
                         <p class="card-text">제목: ${output[i].art_name}</p>
-                        <p class="card-text">시작가: ${output[i].initial_price}</p>
-                        <p class="card-text">현재가: ${output[i].highest_bid === output[i].initial_price ? "입찰자 없음" : output[i].highest_bid}</p>
+                        <p class="card-text">시작가: ${
+                          output[i].initial_price
+                        }</p>
+                        <p class="card-text">현재가: ${
+                          output[i].highest_bid === output[i].initial_price
+                            ? "입찰자 없음"
+                            : output[i].highest_bid
+                        }</p>
                         <p><small>deadline: ${output[i].time_ending}</small>
-                          <a href="/artwork_auction/${output[i].listing_no}" class="btn btn-sm btn-secondary" style="font-size: 0.5vw;">응찰</a>
+                          <a href="/artwork_auction/${
+                            output[i].listing_no
+                          }" class="btn btn-sm btn-secondary" style="font-size: 0.5vw;">응찰</a>
                           <br><br>
                           <button type="submit" style = "background-color: transparent; border-color: transparent;">
                             <img src="/images/좋아요테두리.png" width="30px" height="30px" alt="좋아요">
@@ -451,13 +466,23 @@ router.post("/artwork_list/:sortId", function (request, response) {
                 <div class="row" id="work">
                   <div class="col-xs-3" id="card">
                     <div id="li">
-                      <img src="${output[i].art_file}" style="width : 276px; height : 271px; object-fit: cover;">
+                      <img src="${
+                        output[i].art_file
+                      }" style="width : 276px; height : 271px; object-fit: cover;">
                         <div class="card-body">
                           <p class="card-text">제목: ${output[i].art_name}</p>
-                          <p class="card-text">시작가: ${output[i].initial_price}</p>
-                          <p class="card-text">현재가: ${output[i].highest_bid ===output[i].initial_price ? "입찰자 없음" : output[i].highest_bid}</p>
+                          <p class="card-text">시작가: ${
+                            output[i].initial_price
+                          }</p>
+                          <p class="card-text">현재가: ${
+                            output[i].highest_bid === output[i].initial_price
+                              ? "입찰자 없음"
+                              : output[i].highest_bid
+                          }</p>
                           <p><small>deadline: ${output[i].time_ending}</small>
-                            <a href="/artwork_auction/${output[i].listing_no}" class="btn btn-sm btn-secondary" style="font-size: 0.5vw;">응찰</a>
+                            <a href="/artwork_auction/${
+                              output[i].listing_no
+                            }" class="btn btn-sm btn-secondary" style="font-size: 0.5vw;">응찰</a>
                             <br><br>
                             <button type="submit" style = "background-color: transparent; border-color: transparent;">
                               <img src="/images/좋아요테두리.png" width="30px" height="30px" alt="좋아요">
@@ -501,13 +526,23 @@ router.post("/artwork_list/:sortId", function (request, response) {
                 <div class="row" id="work" >
                   <div class="col-xs-3" id="card">
                     <div id="li">
-                      <img src="${output[i].art_file}" style="width : 276px; height : 271px; object-fit: cover;">
+                      <img src="${
+                        output[i].art_file
+                      }" style="width : 276px; height : 271px; object-fit: cover;">
                         <div class="card-body">
                           <p class="card-text">제목: ${output[i].art_name}</p>
-                          <p class="card-text">시작가: ${output[i].initial_price}</p>
-                          <p class="card-text">현재가: ${output[i].highest_bid === output[i].initial_price ? "입찰자 없음" : output[i].highest_bid}</p>
+                          <p class="card-text">시작가: ${
+                            output[i].initial_price
+                          }</p>
+                          <p class="card-text">현재가: ${
+                            output[i].highest_bid === output[i].initial_price
+                              ? "입찰자 없음"
+                              : output[i].highest_bid
+                          }</p>
                           <p><small>deadline: ${output[i].time_ending}</small>
-                            <a href="/artwork_auction/${output[i].listing_no}" class="btn btn-sm btn-secondary" style="font-size: 0.5vw;">응찰</a>
+                            <a href="/artwork_auction/${
+                              output[i].listing_no
+                            }" class="btn btn-sm btn-secondary" style="font-size: 0.5vw;">응찰</a>
                             <br><br>
                               <button type="submit" style = "background-color: transparent; border-color: transparent;">
                                 <img src="/images/좋아요테두리.png" width="30px" height="30px" alt="좋아요">
