@@ -13,7 +13,10 @@ router.post("/login_process", function (request, response) {
     [email],
     function (err, res) {
       if (res[0] == undefined) {
-        response.redirect(`/login`);
+        //틀리면 alert 띄우기
+        response.send(
+          `<script type="text/javascript">alert("아이디나 비밀번호가 틀렸습니다.");window.location.href = '/login'</script>;`
+        );
       } else {
         if (res[0].password == password) {
           request.session.is_logined = true;
