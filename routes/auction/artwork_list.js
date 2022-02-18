@@ -23,7 +23,7 @@ router.get("/artwork_list", function (request, response) {
     
     #work {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(276px, 1fr));
+        grid-template-columns: repeat(4, minmax(276px, 1fr));
         grid-template-rows: repeat(auto-fit, minmax(271px, 1fr));
         grid-gap: 1rem;
     }
@@ -181,7 +181,7 @@ router.get("/artwork_list", function (request, response) {
           </form>
         </div>
         <br><br>
-        <div class="row" id="work" >
+        <div class="row" id="work">
       `;
 
       /* 작품 경매 리스트 - 기본적으로 경매중 */
@@ -206,11 +206,11 @@ router.get("/artwork_list", function (request, response) {
 
           while (i < output.length) {
             artwork_list += `
-              <div class="col-xs-3" id="card">
-                <div id="li" >
+              <div class = "col-xs-3" id="card">
+                <div id="li">
                     <img src="${
                       output[i].art_file
-                    }" style="width : 276px; height : 271px; object-fit: cover;" >
+                    }" style="width : 276px; height : 271px; object-fit: cover; border-radius: 10%;" >
                       <div class="card-body">
                         <p class="card-text">제목: ${output[i].art_name}</p>
                         <p class="card-text">시작가: ${
@@ -269,7 +269,7 @@ router.post("/artwork_list/:sortId", function (request, response) {
         color: white;
     }
 
-    .btn {
+    #btn1 {
         border-color: rgb(255, 255, 255);
         color: rgb(255, 255, 255);
         font-size: 1.1vw;
@@ -277,7 +277,7 @@ router.post("/artwork_list/:sortId", function (request, response) {
     
     #work {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(276px, 1fr));
+        grid-template-columns: repeat(4, minmax(276px, 1fr));
         grid-template-rows: repeat(auto-fit, minmax(271px, 1fr));
         grid-gap: 1rem;
     }
@@ -371,6 +371,7 @@ router.post("/artwork_list/:sortId", function (request, response) {
       }
 
       var body = `
+      <br>
       <main class="flex-shrink-0">
         <div class="container">
           <div class="row">
@@ -430,6 +431,7 @@ router.post("/artwork_list/:sortId", function (request, response) {
             </form>
           </div>
          <br><br>
+         <div class="row" id="work">
         `;
 
       db.query(
@@ -463,12 +465,11 @@ router.post("/artwork_list/:sortId", function (request, response) {
               if (now < deadline) {
                 //경매중 -> 진행중인 경매
                 artwork_list += `
-                <div class="row" id="work">
-                  <div class="col-xs-3" id="card">
-                    <div id="li">
+                  <div class="col-xs-4" id="card">
+                    <div id="li" >
                       <img src="${
                         output[i].art_file
-                      }" style="width : 276px; height : 271px; object-fit: cover;">
+                      }" style="width : 276px; height : 271px; object-fit: cover; border-radius: 10%;">
                         <div class="card-body">
                           <p class="card-text">제목: ${output[i].art_name}</p>
                           <p class="card-text">시작가: ${
@@ -523,12 +524,11 @@ router.post("/artwork_list/:sortId", function (request, response) {
               if (now >= deadline) {
                 //경매 마감 -> 마감기한이 다된 경매
                 artwork_list += `
-                <div class="row" id="work" >
-                  <div class="col-xs-3" id="card">
+                  <div class="col-xs-4" id="card">
                     <div id="li">
                       <img src="${
                         output[i].art_file
-                      }" style="width : 276px; height : 271px; object-fit: cover;">
+                      }" style="width : 276px; height : 271px; object-fit: cover; border-radius: 10%;"">
                         <div class="card-body">
                           <p class="card-text">제목: ${output[i].art_name}</p>
                           <p class="card-text">시작가: ${
@@ -550,7 +550,8 @@ router.post("/artwork_list/:sortId", function (request, response) {
                           </p>
                         </div>
                     </div>
-                  </div>`;
+                  </div>
+                  `;
               }
 
               i++;
