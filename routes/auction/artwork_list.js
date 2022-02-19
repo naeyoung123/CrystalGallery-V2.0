@@ -6,15 +6,14 @@ var author = require("../../lib/author.js");
 const db = require("../../db.js");
 var path = require("path");
 
-router.get("/artwork_list", function (request, response) {
-  var title = "작품 목록";
-  var head = `
+router.get("/artwork_list", function(request, response) {
+            var title = "작품 목록";
+            var head = `
     <style>
     body {
         background-color: rgb(0, 0, 0);
         color: white;
     }
-
     #btn1 {
         border-color: rgb(255, 255, 255);
         color: rgb(255, 255, 255);
@@ -27,7 +26,6 @@ router.get("/artwork_list", function (request, response) {
         grid-template-rows: repeat(auto-fit, minmax(271px, 1fr));
         grid-gap: 1rem;
     }
-
     #card .card-body {
         position: absolute;
         top: 200px;
@@ -40,28 +38,23 @@ router.get("/artwork_list", function (request, response) {
         z-index: 10;
         font-size: 13px;
     }
-
     #card #li {
         padding: 0;
         overflow: hidden;
         position: relative;
     }
-
     #card #li:hover .card-body {
         opacity: 1;
         transform: translateY(-200px);
     }
-
     #card .card-body p {
         color: #fff;
         text-align: center;
     }
-
     #li {
         width: 276px;
         height: 271px;
     }
-
     .d-block {
         width: 100%;
         height: 25rem;
@@ -71,53 +64,53 @@ router.get("/artwork_list", function (request, response) {
     </style>
     `;
 
-  /* 경매 입찰가 TOP1, TOP2, TOP3 작품 띄우기 */
-  db.query(
-    `SELECT a.bid_participant, a.highest_bid, 
+            /* 경매 입찰가 TOP1, TOP2, TOP3 작품 띄우기 */
+            db.query(
+                    `SELECT a.bid_participant, a.highest_bid, 
     b.listing_no, b.art_name, b.initial_price, b.upload_user, b.art_file, b.art_explain, b.time_ending
     FROM bid AS a INNER JOIN listing AS b 
     ON a.art_bid_no = b.listing_no
     ORDER BY highest_bid DESC;`,
-    function (error, output) {
-      if (error) {
-        console.log(error);
-        res.send({
-          success: false,
-          message: "database error",
-          error: error,
-        });
-        return;
-      }
+                    function(error, output) {
+                        if (error) {
+                            console.log(error);
+                            res.send({
+                                success: false,
+                                message: "database error",
+                                error: error,
+                            });
+                            return;
+                        }
 
-      var top1_title = "";
-      var top1_explain = "";
-      var top1_art_file = "";
-      var top2_title = "";
-      var top2_explain = "";
-      var top2_art_file = "";
-      var top3_title = "";
-      var top3_explain = "";
-      var top3_art_file = "";
+                        var top1_title = "";
+                        var top1_explain = "";
+                        var top1_art_file = "";
+                        var top2_title = "";
+                        var top2_explain = "";
+                        var top2_art_file = "";
+                        var top3_title = "";
+                        var top3_explain = "";
+                        var top3_art_file = "";
 
-      if (output[0] !== undefined) {
-        top1_title = output[0].art_name;
-        top1_explain = output[0].art_explain;
-        top1_art_file = output[0].art_file;
-      }
+                        if (output[0] !== undefined) {
+                            top1_title = output[0].art_name;
+                            top1_explain = output[0].art_explain;
+                            top1_art_file = output[0].art_file;
+                        }
 
-      if (output[1] !== undefined) {
-        top2_title = output[1].art_name;
-        top2_explain = output[1].art_explain;
-        top2_art_file = output[1].art_file;
-      }
+                        if (output[1] !== undefined) {
+                            top2_title = output[1].art_name;
+                            top2_explain = output[1].art_explain;
+                            top2_art_file = output[1].art_file;
+                        }
 
-      if (output[2] !== undefined) {
-        top3_title = output[2].art_name;
-        top3_explain = output[2].art_explain;
-        top3_art_file = output[2].art_file;
-      }
+                        if (output[2] !== undefined) {
+                            top3_title = output[2].art_name;
+                            top3_explain = output[2].art_explain;
+                            top3_art_file = output[2].art_file;
+                        }
 
-      var body = `
+                        var body = `
     <br>
     <main class="flex-shrink-0">
       <div class="container">
@@ -133,7 +126,6 @@ router.get("/artwork_list", function (request, response) {
               <h4>${top1_explain}</h4>  
             </center>
           </div>
-
           <div class="col-xs-6 col-sm-4">
             <a href="${top2_art_file}">
               <img src="${top2_art_file}" class="d-block" alt="${top2_title}" style = "border-radius: 10%;">
@@ -145,7 +137,6 @@ router.get("/artwork_list", function (request, response) {
               <h4>${top2_explain}</h4>  
             </center>
           </div>
-
           <div class="col-xs-6 col-sm-4">
             <a href="${top3_art_file}">
               <img src="${top3_art_file}" class="d-block" alt="${top3_title}" style = "border-radius: 10%;">
@@ -157,7 +148,6 @@ router.get("/artwork_list", function (request, response) {
               <h4>${top3_explain}</h4>  
             </center>
           </div>
-
         </div>
         <br><br><br>
       
@@ -168,7 +158,6 @@ router.get("/artwork_list", function (request, response) {
               : `<a href="/login" id = "btn1" class="btn btn-outline-secondary" onclick="alert('로그인 후 등록할 수 있습니다.')">내 작품 등록하기</a>`
           }
         </p>
-
         <div class="btn-group" role="group">
           <form action="/artwork_list/ongoing_bid" method="POST">
             <button type="submit" id = "btn1" class="btn btn-outline-secondary" name="ongoing_bid">경매중</button>
@@ -268,7 +257,6 @@ router.post("/artwork_list/:sortId", function (request, response) {
         background-color: rgb(0, 0, 0);
         color: white;
     }
-
     #btn1 {
         border-color: rgb(255, 255, 255);
         color: rgb(255, 255, 255);
@@ -281,7 +269,6 @@ router.post("/artwork_list/:sortId", function (request, response) {
         grid-template-rows: repeat(auto-fit, minmax(271px, 1fr));
         grid-gap: 1rem;
     }
-
     #card .card-body {
         position: absolute;
         top: 200px;
@@ -294,28 +281,23 @@ router.post("/artwork_list/:sortId", function (request, response) {
         z-index: 10;
         font-size: 13px;
     }
-
     #card #li {
         padding: 0;
         overflow: hidden;
         position: relative;
     }
-
     #card #li:hover .card-body {
         opacity: 1;
         transform: translateY(-200px);
     }
-
     #card .card-body p {
         color: #fff;
         text-align: center;
     }
-
     #li {
         width: 276px;
         height: 271px;
     }
-
     .d-block {
         width: 100%;
         height: 25rem;
@@ -418,7 +400,6 @@ router.post("/artwork_list/:sortId", function (request, response) {
           <a href="/register_artwork" id = "btn1" class="btn btn-outline-secondary">내 작품 등록하기</a>
         </p>
   
-
           <div class="btn-group" role="group">
             <form action="/artwork_list/ongoing_bid" method="POST">
               <button type="submit" id = "btn1" class="btn btn-outline-secondary" name="ongoing_bid">경매중</button>
