@@ -32,98 +32,182 @@ router.get("/artwork_auction/:listing_no", function (request, response) {
       const user = request.session.username;
       const bid_participant = row[0].bid_participant;
       console.log(bid_participant);
+      console.log(user);
 
       var head = `
-        <style>
-        #wrapper {
-            width: 100%
-            height: 800px;
-            border: 1px solid #d1d1d1;
-            margin-top: auto;
-        }
-
-        #image {
-           width: 50%;
-           height: 500px;
-           float: left;
-           padding:10px;
-           border: 1px solid #d1d1d1;
-
-        }
-
-        #contents {
-            width: 50%;
-            height: 500px;
-            float: right;
-            text-align: left;
-            padding:10px;
-            
-        }
-
-        #comment {
-            claer: both;
-            height:100px;
-        }
-        </style>
-    `;
+          <style>
+          #wrapper {
+              width: 100%
+              height: 800px;
+              border: 1px solid #d1d1d1;
+              margin-top: auto;
+          }
+  
+          #image {
+             width: 50%;
+             height: 500px;
+             float: left;
+             padding:10px;
+             border: 1px solid #d1d1d1;
+  
+          }
+  
+          #contents {
+              width: 50%;
+              height: 500px;
+              float: right;
+              text-align: left;
+              padding:10px;
+              
+          }
+  
+          #comment {
+              claer: both;
+              height:100px;
+          }
+          </style>
+      `;
       // 시간 및 사용자 비교
       const now = new Date();
       const deadline = new Date(time_ending);
       var body = `
-    <div id="wrapper">
-
-        <div id="image">
-          <img src='${art_file}' width: 50% height: 500px alt='${art_name}'>      
-        </div>
-
-        <div id="contents">
-            <h3>작품명: ${art_name} </h3>
-            작품설명: ${art_explain}
-            <br><br>
-            경매시작일: ${time_starting} -경매마감일: ${time_ending}
-            <br><br>
-            시작금액: ${initial_price}
-            <br><br>
-            현재금액: ${
-              highest_bid === initial_price ? "입찰자 없음" : highest_bid
-            }
-            <br><br>
-            <form action="/artwork_auction_process" method ="post">
-              <input type="hidden" name = "list_no" value=${list_no}>
-              <input type="hidden" name = "highest_bid" value=${highest_bid}>
-              <input type="hidden" name = "bid_upload_user" value=${bid_upload_user}>
-              <input type="hidden" name = "initial_price" value=${initial_price}>
-              <input type="hidden" name = "bid_participant" value=${bid_participant}>
-              
-              ${
-                bid_upload_user === user
-                  ? "<h5>자신의 작품은 낙찰할 수 없습니다.</h5>"
-                  : now > deadline
-                  ? "<h5>마감 기한이 지난 경매는 참여할 수 없습니다.</h5>"
-                  : `<label>경매 금액: <input type="number" name ="bid_price" step="10" min="100" max="100000000"></label>
-                  <br>
-                  숫자 입력 : 10<input type="range" min="0" max="100000000">100000000
-                  <br><br>
-                  <button type="submit" style="width:50%"><b>낙찰</b></button>
-                  `
+      <div id="wrapper">
+  
+          <div id="image">
+            <img src='${art_file}' width: 50% height: 500px alt='${art_name}'>      
+          </div>
+  
+          <div id="contents">
+              <h3>작품명: ${art_name} </h3>
+              작품설명: ${art_explain}
+              <br><br>
+              경매시작일: ${time_starting} -경매마감일: ${time_ending}
+              <br><br>
+              시작금액: ${initial_price}
+              <br><br>
+              현재금액: ${
+                highest_bid === initial_price ? "입찰자 없음" : highest_bid
               }
-            </form>
-        </div>
+              <br><br>
+              <form action="/artwork_auction_process" method ="post">
+                <input type="hidden" name = "list_no" value=${list_no}>
+                <input type="hidden" name = "highest_bid" value=${highest_bid}>
+                <input type="hidden" name = "bid_upload_user" value=${bid_upload_user}>
+                <input type="hidden" name = "initial_price" value=${initial_price}>
+                <input type="hidden" name = "bid_participant" value=${bid_participant}>
+                
+                ${
+                  bid_upload_user === user
+                    ? "<h5>자신의 작품은 낙찰할 수 없습니다.</h5>"
+                    : now > deadline
+                    ? "<h5>마감 기한이 지난 경매는 참여할 수 없습니다.</h5>"
+                    : `<label>경매 금액: <input type="number" name ="bid_price" step="10" min="100" max="100000000"></label>
+                    <br>
+                    숫자 입력 : 10<input type="range" min="0" max="100000000">100000000
+                    <br><br>
+                    <button type="submit" style="width:50%"><b>낙찰</b></button>
+                    `
+                }
+              </form>
+          </div>
+          <div class="container py-4 listing-comments" id="comment">
+          <h5>댓글</h5>`;
 
-        <div id="comment">
-        댓글을 입력하세요.
-        </div>
-
-    </div>
+      db.query(
+        `SELECT * from comment WHERE art_file = ?`,
+        [list_no],
+        function (err2, row2) {
+          if (err2) {
+            console.error(err2);
+          } else {
+            var i = 0;
+            var artwork_auction = ``;
+            var comment = ``;
+            if (user === undefined) {
+              if (row2[i] === undefined) {
+                artwork_auction += `
+          <div class="comment-container">
+            <span class="text-muted">
+              댓글이 아직 없습니다.
+            </span>
+  
+          </div>
+          <hr>`;
+              } else {
+                while (i < row2.length) {
+                  console.log(row2[i]);
+                  artwork_auction += `
+          <div class="comment-container">
+  
+            <div style="margin: 5px;">
+              <div class="comment-owner ">
+                ${row2[i].comment_user}
+              </div>
+              <span class="comment-content">
+                ${row2[i].art_comment}
+              </span>
+              <span class="text-muted" style="text-align: right; margin-right: 5px;">
+                
+              </span>
+            </div>
+          </div>
+          <hr>`;
+                  i++;
+                }
+              }
+            } else {
+              if (row2[i] == undefined) {
+                artwork_auction += `
+          <div class="comment-container">
+            <span class="text-muted">
+              댓글이 아직 없습니다.
+            </span>
+  
+          </div>
+          <hr>`;
+              } else {
+                while (i < row2.length) {
+                  artwork_auction += `
+          <div class="comment-container">
+  
+            <div style="margin: 5px;">
+              <div class="comment-owner ">
+                ${row2[i].comment_user}
+              </div>
+              <span class="comment-content">
+                ${row2[i].art_comment}
+              </span>
+            </div>
+          </div>
+          <hr>`;
+                  i++;
+                }
+              }
+              comment += `<form class="comment-form" action="/comment" method="POST">
+            댓글 입력:
+  
+            <textarea name="content" class="form-control" placeholder="여기에 댓글을 입력해주세요" rows="3"
+              maxlength="400"></textarea>
+            
+            <input name="art_file" type="hidden" value="${list_no}">
+            <br>
+            <button class="btn btn-outline-secondary my-2" type="submit" style="float: right;">Comment</button>
     
-    `;
-      var html = template.HTML(
-        title,
-        head,
-        body,
-        author.statusUI(request, response)
+          </form>`;
+            }
+
+            body += `${artwork_auction} ${comment} </div></div>`;
+
+            var html = template.HTML(
+              title,
+              head,
+              body,
+              author.statusUI(request, response)
+            );
+            response.send(html);
+          }
+        }
       );
-      response.send(html);
     }
   });
 });
