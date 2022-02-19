@@ -116,7 +116,7 @@ router.get("/artwork_list", function(request, response) {
       <div class="container">
         <div class="row">
           <div class="col-xs-6 col-sm-4">
-            <a href="${top1_art_file}">
+            <a href="/artwork_auction/${output[0].listing_no}">
               <img src="${top1_art_file}" class="d-block" alt="${top1_title}" style = "border-radius: 10%;">
             </a>
             <br>
@@ -127,7 +127,7 @@ router.get("/artwork_list", function(request, response) {
             </center>
           </div>
           <div class="col-xs-6 col-sm-4">
-            <a href="${top2_art_file}">
+            <a href="/artwork_auction/${output[1].listing_no}">
               <img src="${top2_art_file}" class="d-block" alt="${top2_title}" style = "border-radius: 10%;">
             </a>
             <br>
@@ -138,7 +138,7 @@ router.get("/artwork_list", function(request, response) {
             </center>
           </div>
           <div class="col-xs-6 col-sm-4">
-            <a href="${top3_art_file}">
+            <a href="/artwork_auction/${output[2].listing_no}">
               <img src="${top3_art_file}" class="d-block" alt="${top3_title}" style = "border-radius: 10%;">
             </a>
             <br>
@@ -359,7 +359,7 @@ router.post("/artwork_list/:sortId", function (request, response) {
           <div class="row">
             
             <div class="col-xs-6 col-sm-4">
-              <a href="${top1_art_file}">
+              <a href="/artwork_auction/${output[0].listing_no}">
                 <img src="${top1_art_file}" class="d-block" alt="${top1_title}" style = "border-radius: 10%;">
               </a>
               <br>
@@ -371,7 +371,7 @@ router.post("/artwork_list/:sortId", function (request, response) {
             </div>
   
             <div class="col-xs-6 col-sm-4">
-              <a href="${top2_art_file}">
+              <a href="/artwork_auction/${output[1].listing_no}">
                 <img src="${top2_art_file}" class="d-block" alt="${top2_title}" style = "border-radius: 10%;">
               </a>
               <br>
@@ -383,7 +383,7 @@ router.post("/artwork_list/:sortId", function (request, response) {
             </div>
   
             <div class="col-xs-6 col-sm-4">
-              <a href="${top3_art_file}">
+              <a href="/artwork_auction/${output[2].listing_no}">
                 <img src="${top3_art_file}" class="d-block" alt="${top3_title}" style = "border-radius: 10%;">
               </a>
               <br>
