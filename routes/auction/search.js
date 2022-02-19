@@ -5,9 +5,13 @@ var template = require("../../lib/template.js");
 var author = require("../../lib/author.js");
 const db = require("../../db.js");
 var path = require("path");
+var url = require('url');
 
 router.get("/search", function(request, response) {
     var title = "작품 검색"
+    var body = ``;
+
+    //head코드는 artwork_list.js와 동일
     var head = `
     <style>
     body {
@@ -63,13 +67,17 @@ router.get("/search", function(request, response) {
     }
     </style>`;
 
-    var body = ``;
+    /*url 쿼리에서 검색어 추출*/
+    var search_word = url.parse(request.url, true).query.search_word;
+    console.log(search_word);
+
 
     db.query(
         `SELECT a.highest_bid, 
     b.listing_no, b.art_name, b.initial_price, b.art_file, b.time_ending
     FROM bid AS a RIGHT JOIN listing AS b 
-    ON a.art_bid_no = b.listing_no; `,
+    ON a.art_bid_no = b.listing_no
+    WHERE art_name LIKE ?; `, ['%' + search_word + '%'],
         function(error, output) {
             if (error) {
                 console.log(error);
