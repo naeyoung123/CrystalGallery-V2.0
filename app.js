@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 const session = require("express-session");
 const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: false })); //body-parser 미들웨어 사용
+app.use(bodyParser.urlencoded({extended: false})); //body-parser 미들웨어 사용
 app.use(express.static("public"));
 app.use(express.static("uploads")); //작품 작성으로 업로드된 사진 경로
 
@@ -24,13 +24,14 @@ const registerArtworkUpdateRouter = require("./routes/auction/register_artwork_u
 const registerArtworkRouter = require("./routes/auction/register_artwork.js");
 const registerArtworkProcessRouter = require("./routes/auction/register_artwork_process.js");
 const searchRouter = require("./routes/auction/search.js");
+const commentRouter = require("./routes/auction/comment.js");
 
 app.use(
-    session({
-        secret: "my key",
-        resave: false,
-        saveUninitialize: true,
-    })
+  session({
+    secret: "my key",
+    resave: false,
+    saveUninitialize: true,
+  })
 );
 
 app.use("/", mainRouter);
@@ -53,7 +54,8 @@ app.get("/register_artwork_update", registerArtworkUpdateRouter);
 app.get("/register_artwork", registerArtworkRouter);
 app.post("/register_artwork_process", registerArtworkProcessRouter);
 app.get("/search", searchRouter);
+app.post("/comment", commentRouter);
 
-app.listen(3000, function() {
-    console.log("server is running.");
+app.listen(3000, function () {
+  console.log("server is running.");
 });
