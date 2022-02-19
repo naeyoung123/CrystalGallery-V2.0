@@ -112,7 +112,7 @@ router.get("/artwork_auction/:listing_no", function (request, response) {
           </div>
           <div class="container py-4 listing-comments" id="comment">
           <h5>댓글</h5>`;
-
+      // 댓글
       db.query(
         `SELECT * from comment WHERE art_file = ?`,
         [list_no],
@@ -125,6 +125,7 @@ router.get("/artwork_auction/:listing_no", function (request, response) {
             var comment = ``;
             if (user === undefined) {
               if (row2[i] === undefined) {
+                // 로그인이 안되어있으면서 댓글이 없는 경우
                 artwork_auction += `
           <div class="comment-container">
             <span class="text-muted">
@@ -136,6 +137,7 @@ router.get("/artwork_auction/:listing_no", function (request, response) {
               } else {
                 while (i < row2.length) {
                   console.log(row2[i]);
+                  // 로그인 안되어있으면서 댓글이 있는 경우
                   artwork_auction += `
           <div class="comment-container">
   
@@ -157,6 +159,7 @@ router.get("/artwork_auction/:listing_no", function (request, response) {
               }
             } else {
               if (row2[i] == undefined) {
+                // 로그인 되어있으면서 댓글이 없는 경우
                 artwork_auction += `
           <div class="comment-container">
             <span class="text-muted">
@@ -167,6 +170,7 @@ router.get("/artwork_auction/:listing_no", function (request, response) {
           <hr>`;
               } else {
                 while (i < row2.length) {
+                  // 로그인 되어있으면서 댓글이 있는 경우
                   artwork_auction += `
           <div class="comment-container">
   
