@@ -111,7 +111,7 @@ router.get("/artwork_auction/:listing_no", function (request, response) {
               </form>
           </div>
           <div class="container py-4 listing-comments" id="comment">
-          <h5>댓글</h5>`;
+          <h4>댓글</h4>`;
       // 댓글
       db.query(
         `SELECT * from comment WHERE art_file = ?`,
@@ -178,7 +178,6 @@ router.get("/artwork_auction/:listing_no", function (request, response) {
               </div>
               <span class="comment-content">
                 ${row2[i].art_comment}
-                      
               ${
                 user === row2[i].comment_user
                   ? `<span class="text-muted" style="text-align: right; margin-right: 5px;">
@@ -192,7 +191,7 @@ router.get("/artwork_auction/:listing_no", function (request, response) {
                 <button name="comment_del" type="submit" style="float: right;">삭제</button>
             </form>
             </span><hr>`
-                  : ""
+                  : "<hr>"
               }
               </span>
             </div>
