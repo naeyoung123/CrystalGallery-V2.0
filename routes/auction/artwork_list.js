@@ -230,7 +230,7 @@ router.get("/artwork_list", function(request, response) {
             ${artwork_list}
              </div> 
             </div>
-          </main>`;
+          </main> <br>`;
 
           var html = template.HTML(
             title,
@@ -482,7 +482,7 @@ router.post("/artwork_list/:sortId", function (request, response) {
             body += `${artwork_list}
                 </div>
               </div>
-            </main>`;
+            </main>  <br>`;
 
             var html = template.HTML(
               title,
@@ -541,7 +541,7 @@ router.post("/artwork_list/:sortId", function (request, response) {
             body += `${artwork_list}
                 </div>
               </div>
-            </main>`;
+            </main>  <br>`;
 
             var html = template.HTML(
               title,

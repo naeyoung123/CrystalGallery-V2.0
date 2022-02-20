@@ -14,7 +14,6 @@ router.get("/signup", function (request, response) {
         body {
             background-color : black;
             color : white;
-            text-align: center;
         }
         #signupLogo {
             color: white;
@@ -142,7 +141,7 @@ router.get("/signup", function (request, response) {
                 }
             }
         </script>
-        <div class="container">
+        <div class="container" style= "text-align: center;">
             <p id="signupLogo"><strong>Sign Up</strong></p>
             <form action="/signup_process" method="post">
                 <p id="emailpara">Email</p>

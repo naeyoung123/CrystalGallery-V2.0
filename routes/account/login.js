@@ -12,7 +12,6 @@ router.get('/login', function (request, response) {
         }
 
         body {
-            text-align: center;
             background-color: rgb(0, 0, 0);
             color : rgb(255,255,255);
         }
@@ -126,7 +125,7 @@ router.get('/login', function (request, response) {
     <main class="flex-shrink-0">
         <br><br><br>
         <div class="container">
-            <div className="signupBox">
+            <div className="signupBox" style= "text-align: center;">
                 <p id="signupLogo"><strong>Log In</strong></p>
                 <form action="/login_process" method="post" className="inputField">
                     <p id="emailpara">Email</p>
