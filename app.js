@@ -25,6 +25,8 @@ const registerArtworkRouter = require("./routes/auction/register_artwork.js");
 const registerArtworkProcessRouter = require("./routes/auction/register_artwork_process.js");
 const searchRouter = require("./routes/auction/search.js");
 const commentRouter = require("./routes/auction/comment.js");
+const commentModRouter = require("./routes/auction/comment_mod.js");
+const commentDelRouter = require("./routes/auction/comment_del.js");
 
 app.use(
   session({
@@ -55,6 +57,8 @@ app.get("/register_artwork", registerArtworkRouter);
 app.post("/register_artwork_process", registerArtworkProcessRouter);
 app.get("/search", searchRouter);
 app.post("/comment", commentRouter);
+app.post("/comment_mod", commentModRouter);
+app.post("/comment_del", commentDelRouter);
 
 app.listen(3000, function () {
   console.log("server is running.");

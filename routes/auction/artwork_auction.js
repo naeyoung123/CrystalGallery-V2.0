@@ -147,9 +147,7 @@ router.get("/artwork_auction/:listing_no", function (request, response) {
               </div>
               <span class="comment-content">
                 ${row2[i].art_comment}
-              </span>
-              <span class="text-muted" style="text-align: right; margin-right: 5px;">
-                
+
               </span>
             </div>
           </div>
@@ -180,10 +178,26 @@ router.get("/artwork_auction/:listing_no", function (request, response) {
               </div>
               <span class="comment-content">
                 ${row2[i].art_comment}
+                      
+              ${
+                user === row2[i].comment_user
+                  ? `<span class="text-muted" style="text-align: right; margin-right: 5px;">
+              <form class="comment_mod" action="/comment_mod" method="POST">    
+                <input name="art_file" type="hidden" value="${list_no}">
+                <input name="comment_no" type="hidden" value="${row2[i].comment_no}">
+                <button name="comment_mod" type="submit" style="float: right;">수정</button>            </form>
+            <form class="comment_del" action="/comment_del" method="POST">    
+                <input name="comment_no" type="hidden" value="${row2[i].comment_no}">
+                <input name="art_file" type="hidden" value="${list_no}">
+                <button name="comment_del" type="submit" style="float: right;">삭제</button>
+            </form>
+            </span><hr>`
+                  : ""
+              }
               </span>
             </div>
           </div>
-          <hr>`;
+          `;
                   i++;
                 }
               }
