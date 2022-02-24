@@ -7,6 +7,7 @@ router.get("/", function (request, response) {
   var title = "CrystalGallery";
   var head = `
     <style>
+    @import url("https://use.typekit.net/lli2uap.css");
     @font-face {
       font-family: 'SF_IceLemon';
       src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/SF_IceLemon.woff') format('woff');
@@ -67,11 +68,13 @@ router.get("/", function (request, response) {
     <main class="flex-shrink-0">
       <div class="container">
       <br><br>
-        <div class="text" style = "font-family: 'SF_IceLemon'; color : white;">
+        <div class="text" style = "color : white;">
           <center>
-          <p style = "font-size : 5vw;">
-            CRYSTAL<br>GALLERY</p>
-          <p style="font-size: 3.5vw;">당신의 진가, 크리스탈에서 발굴해보세요<br>
+          <h1 style = "font-size : 6vw; font-family: discourse-wide,sans-serif;">
+            CRYSTAL</h1>
+          <h1 style = "font-size : 6vw; font-family: discourse-middle-outline,sans-serif;">
+            GALLERY</h1>
+          <p style="font-size: 3vw; font-family: 'SF_IceLemon';">당신의 진가, 크리스탈에서 발굴해보세요<br>
             <a href="/artwork_list" class="btn btn-outline-light">옥션 구경하러 가기</a></p>
           </center>
         </div>
